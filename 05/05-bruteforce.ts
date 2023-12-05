@@ -1,25 +1,7 @@
-class Range {
-    private sourceRangeEnd: number;
-    private destinationRangeEnd: number;
-
-    constructor(
-        public destinationRangeStart: number,
-        public sourceRangeStart: number,
-        public length: number
-    ) {
-        this.sourceRangeEnd = sourceRangeStart + length - 1;
-        this.destinationRangeEnd = destinationRangeStart + length - 1;
-    }
-
-    mergeRanges(other: Range): Range[] {
-        if (this.sourceRangeStart <= other.sourceRangeEnd || this.sourceRangeEnd >= other.sourceRangeStart) {
-            // they overlap
-
-        }
-        else {
-            return [this, other];
-        }
-    }
+interface Range {
+    destinationRangeStart: number;
+    sourceRangeStart: number;
+    length: number
 }
 
 class FarmingMap {
@@ -36,11 +18,11 @@ class FarmingMap {
                 length,
             ] = line.split(' ').map(n => Number(n));
 
-            this.ranges.push(new Range(
+            this.ranges.push({
                 destinationRangeStart,
                 sourceRangeStart,
                 length,
-            ));
+            });
         }
     }
 
@@ -53,8 +35,6 @@ class FarmingMap {
 
         return source;
     }
-
-    mapRange()
 }
 
 class Almanac {
@@ -124,7 +104,7 @@ function part1() {
 function part2() {
     const almanac = parseInput(contents);
 
-    let minLocation: number | undefined = undefined;
+    let minLocation: number|undefined = undefined;
     let processed = 0;
 
     for (let i = 0; i < almanac.seeds.length; i += 2) {
@@ -145,6 +125,8 @@ function part2() {
             }
         }
     }
+
+    console.log(processed);
 
     return minLocation;
 }
